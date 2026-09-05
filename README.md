@@ -1,94 +1,67 @@
 # YuvaIntern_project
 
-A Java project created for the Yuva Internship program.
+A small Java console application: a Library Books Management System implemented in src/main/java/mypackage.
 
-## Overview
+## Project summary
 
-This repository contains Java source code for the YuvaIntern_project. It serves as a starting point for internship exercises and small Java applications or utilities.
+This repository contains a small Java program that provides a command-line library book management system. It currently includes three Java source files under `src/main/java/mypackage`:
 
-## Features
-
-- Java-based project structure
-- Clear setup and build instructions for Maven, Gradle, and plain javac
+- `mainApp.java` — program entry point (class `mypackage.mainApp`). Presents a text UI with options to add, list, update, and delete books.
+- `Management.java` — contains book management logic and an in-memory `ArrayList<Book>` used as the library database. Offers methods addBook(), listBook(), updateBook(), deleteBook().
+- `Book.java` — simple data class for a book with fields: title, author, isbn, publicationyear and corresponding getters.
 
 ## Requirements
 
 - Java 11 or newer (JDK)
-- (Optional) Maven or Gradle if you prefer using a build tool
 
-## Build & Run
+## Build & run (no build tool)
 
-Choose the commands below depending on your setup.
-
-### Using Maven
-
-If the project uses Maven:
+This project doesn't use Maven/Gradle. Compile and run using `javac`/`java`:
 
 ```bash
-mvn clean package
-java -jar target/<your-artifact>.jar
-```
-
-Replace `<your-artifact>.jar` with the actual JAR name produced in `target/`.
-
-### Using Gradle
-
-If the project uses Gradle:
-
-```bash
-./gradlew build
-java -jar build/libs/<your-artifact>.jar
-```
-
-Replace `<your-artifact>.jar` with the actual JAR name produced in `build/libs/`.
-
-### Using javac (no build tool)
-
-If there is no build tool configured, compile and run manually:
-
-```bash
-# compile (example assumes sources under src/main/java)
+# from the repository root
 find src -name "*.java" > sources.txt
 javac -d out @sources.txt
 
-# run (replace com.example.Main with your main class)
-java -cp out com.example.Main
+# run the main class
+java -cp out mypackage.mainApp
 ```
 
-## Running Tests
+Notes:
+- The main entry point is `mypackage.mainApp`.
+- The program is interactive and reads input from the console.
 
-If the project uses JUnit with Maven or Gradle:
+## Project structure
 
-Maven:
-```bash
-mvn test
-```
+src/main/java/mypackage/
+- Book.java — model class representing a book.
+- Management.java — contains the management operations and in-memory data store.
+- mainApp.java — console UI and program entry point.
 
-Gradle:
-```bash
-./gradlew test
-```
+## Quick usage
 
-## Contributing
+- Start the program: `java -cp out mypackage.mainApp` after compilation.
+- Use menu choices 1–5 to add, list, update, delete books, or exit.
+
+## Known issues & suggestions (observed in source)
+
+- `Management.updateBook()` and `Management.deleteBook()` use a conditional `if (index <0 && booklist.isEmpty())` which will not correctly detect invalid indices; it should likely be `if (index < 0 || index >= booklist.size())` and/or check for empty list separately to avoid IndexOutOfBoundsException.
+- Input parsing mixes `nextInt()` and `nextLine()`; current code calls `sc.nextLine()` after `nextInt()` which mitigates the newline issue but be cautious when refactoring.
+- `ISBN` is stored in an `int`. Consider using `long` or `String` if you expect larger or non-numeric ISBN formats.
+- `Management.booklist` is `public static` — consider making it private and exposing controlled access.
+- The `Scanner` instances are not closed. It's OK for short CLI programs, but closing System.in Scanner can have side effects; document or centralize scanner use.
+
+## Contribution
 
 Contributions are welcome. Suggested workflow:
-
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-change`
-3. Commit changes and push
-4. Open a pull request describing your change
-
-Please follow any existing code style and add tests for new behavior.
+2. Create a branch for your change
+3. Open a pull request
 
 ## License
 
-Add a LICENSE file to this repository to specify the license. If you're unsure, consider using the MIT License.
-
-## Contact
-
-For questions, reach out to the repository owner.
-
+No LICENSE file found. If you want this project licensed, add a LICENSE file (e.g., MIT) or tell me which license to add and I can create it.
 
 ---
 
-*This README was added automatically. Please update the build/run instructions and main class names to match this project's actual structure.*
+This README was generated/updated automatically by a repository assistant after inspecting `src/main/java/mypackage`. If you want a more detailed README (examples, test instructions, or a branch/PR instead of direct commits), tell me and I will update accordingly.
